@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishRadar - Email Payload Forensic Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-expand-lg navbar-cyber fixed-top">
+        <div class="container-fluid container-xl">
+            <a class="navbar-brand navbar-brand-cyber" href="index.html">
+                <i class="fa-solid fa-shield-halved text-info me-2"></i>Phish<span>Radar</span>
+            </a>
+            <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#cyberNavbar" aria-controls="cyberNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="cyberNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="index.html"><i class="fa-solid fa-chart-pie me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="url-analysis.html"><i class="fa-solid fa-link me-1"></i> URL Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber active" href="email-analysis.html"><i class="fa-solid fa-envelope me-1"></i> Email Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="qr-analysis.html"><i class="fa-solid fa-qrcode me-1"></i> QR Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="about.html"><i class="fa-solid fa-user me-1"></i> About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container container-xl mt-5 pt-5 flex-grow-1">
+        <div class="row my-4">
+            <div class="col-12">
+                <h1 class="h3 fw-bold text-white mb-1"><i class="fa-solid fa-envelope text-info me-2"></i>Email Payload Forensic Analyzer</h1>
+                <p class="text-muted-custom">Evaluate raw envelope headers, semantic body copy configurations, and cross-reference underlying anchor assets.</p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-6">
+                <div class="cyber-card h-100">
+                    <h2 class="h5 text-white mb-3 fw-bold"><i class="fa-solid fa-file-shield text-info me-2"></i>Envelope Parameters</h2>
+                    <form id="emailForensicForm" onsubmit="executeEmailForensics(event)">
+                        <div class="mb-3">
+                            <label for="senderInput" class="form-label text-white small fw-semibold">Sender E-mail Address Header</label>
+                            <input type="text" id="senderInput" class="form-control cyber-input" placeholder="e.g., support@paypal-security-update.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subjectInput" class="form-label text-white small fw-semibold">Subject Line Meta String</label>
+                            <input type="text" id="subjectInput" class="form-control cyber-input" placeholder="e.g., Immediate action required: Account suspended" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bodyInput" class="form-label text-white small fw-semibold">Raw E-mail Message Body Content</label>
+                            <textarea id="bodyInput" class="form-control cyber-input" rows="8" placeholder="Paste full content or raw email text content here for token inspection..." required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-cyber-primary w-100" id="emailSubmitBtn">
+                                <i class="fa-solid fa-microscope me-2"></i>Run Corpus Forensic Sweep
+                            </button>
+                        </div>
+                        <div id="emailErrorContainer"></div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+            
+                <!-- Placeholder -->
+                <div class="cyber-card h-100 d-flex flex-column align-items-center justify-content-center text-center py-5" id="emailStaticPlaceholder" style="min-height: 300px;">
+                    <i class="fa-solid fa-terminal text-secondary opacity-20 mb-3" style="font-size: 5rem;"></i>
+                    <h3 class="h5 text-muted-custom">Awaiting Engine Submission</h3>
+                    <p class="text-muted-custom small col-9">Fill in the form and click Run to start analysis.</p>
+                </div>
+            
+                <!-- Loader -->
+                <div class="cyber-card h-100 d-none flex-column align-items-center justify-content-center text-center py-5" id="emailProcessingLoader">
+                    <div class="spinner-border analysis-spinner mb-3" role="status"></div>
+                    <h3 class="h5 text-info">Analyzing Email...</h3>
+                    <p class="text-muted-custom small">Running forensic sweep on all parameters</p>
+                </div>
+            
+                <!-- Results -->
+                <div class="cyber-card d-none" id="emailAnalysisInteractiveView" style="min-height: 300px;">
+                
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-secondary" style="min-height: 300px;">
+                        <h3 class="h5 text-white mb-0 fw-bold">
+                            <i class="fa-solid fa-poll text-info me-2"></i>Analysis Results
+                        </h3>
+                        <button class="btn btn-sm btn-cyber-primary" onclick="routeToGlobalDashboard('email')">
+                            Full Report
+                        </button>
+                    </div>
+                
+                    <!-- Score Row -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <div class="p-3 rounded bg-dark border border-secondary text-center">
+                                <span class="d-block small text-muted-custom mb-1">Risk Score</span>
+                                <span class="h4 fw-bold d-block mb-0" id="renderedEmailScore">--</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded bg-dark border border-secondary text-center">
+                                <span class="d-block small text-muted-custom mb-1">Threat Level</span>
+                                <span class="h5 fw-bold d-block mb-0" id="renderedEmailLabel">--</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Threat Indicators -->
+                    <div class="mb-3">
+                        <p class="text-white small fw-semibold mb-2">
+                            <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i>Threat Indicators
+                        </p>
+                        <div class="d-flex flex-wrap gap-2" id="emailIndicatorsContainer">
+                            <span class="text-muted-custom small">Awaiting analysis...</span>
+                        </div>
+                    </div>
+                
+                    <!-- Sender Domain -->
+                    <div class="mb-3">
+                        <p class="text-white small fw-semibold mb-2">
+                            <i class="fa-solid fa-at text-info me-1"></i>Sender Domain Analysis
+                        </p>
+                        <div class="p-2 rounded bg-dark border border-secondary small" id="senderDomainAnalysisNode">
+                            <span class="text-muted-custom">--</span>
+                        </div>
+                    </div>
+                
+                    <!-- Extracted URLs -->
+                    <div class="mb-3">
+                        <p class="text-white small fw-semibold mb-2">
+                            <i class="fa-solid fa-link text-info me-1"></i>Extracted URLs
+                        </p>
+                        <div class="p-2 rounded bg-dark border border-secondary text-info small" id="extractedEmailLinkNode">
+                            None found
+                        </div>
+                    </div>
+                
+                    <!-- AI Explanation -->
+                    <div>
+                        <p class="text-white small fw-semibold mb-2">
+                            <i class="fa-solid fa-brain text-info me-1"></i>AI Threat Explanation
+                        </p>
+                        <div class="p-3 rounded bg-dark border border-secondary text-muted-custom small" id="emailAiExplanationContainer" style="max-height: 150px; overflow-y: auto;">
+                            Awaiting analysis...
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container container-xl text-center">
+            <p class="mb-0">&copy; 2026 PhishRadar. IBM Internship Project. Made with <i class="fa-solid fa-heart text-danger"></i> by Kubavat Kuldip</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/email-analysis.js"></script>
+</body>
+</html>

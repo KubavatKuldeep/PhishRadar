@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishRadar- Link & URL Inspection Engine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-expand-lg navbar-cyber fixed-top">
+        <div class="container-fluid container-xl">
+            <a class="navbar-brand navbar-brand-cyber" href="index.html">
+                <i class="fa-solid fa-shield-halved text-info me-2"></i>Phish<span>Radar</span>
+            </a>
+            <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#cyberNavbar" aria-controls="cyberNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="cyberNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="index.html"><i class="fa-solid fa-chart-pie me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber active" href="url-analysis.html"><i class="fa-solid fa-link me-1"></i> URL Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="email-analysis.html"><i class="fa-solid fa-envelope me-1"></i> Email Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="qr-analysis.html"><i class="fa-solid fa-qrcode me-1"></i> QR Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="about.html"><i class="fa-solid fa-user me-1"></i> About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container container-xl mt-5 pt-5 flex-grow-1">
+        <div class="row my-4">
+            <div class="col-12">
+                <h1 class="h3 fw-bold text-white mb-1"><i class="fa-solid fa-link text-info me-2"></i>URL Diagnostic Engine</h1>
+                <p class="text-muted-custom">Inspect structural domain patterns, SSL attributes, routing modifications, and track active path telemetry.</p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="cyber-card">
+                    <form id="urlAnalysisForm" onsubmit="executeUrlAnalysis(event)">
+                        <div class="mb-3">
+                            <label for="targetUrlInput" class="form-label text-white fw-semibold small">Target Scan Destination URL</label>
+                            <input type="text" id="targetUrlInput" class="form-control cyber-input" placeholder="Paste full path URL here (e.g., https://secure-login-update.com/auth)..." required>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-cyber-primary" id="submitBtn">
+                                <i class="fa-solid fa-shield-virus me-2"></i>Analyze Network Vector
+                            </button>
+                        </div>
+                        <div id="urlErrorContainer"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-none mb-4" id="loadingStateBlock">
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border analysis-spinner mb-3" role="status"></div>
+                <h4 class="text-info h5">Extracting Routing Tables & Core Threat Vectors...</h4>
+                <p class="text-muted-custom small">Running global heuristic signatures and domain generation evaluations</p>
+            </div>
+        </div>
+
+        <div class="row d-none g-4 mb-5" id="resultsSummaryBlock">
+            <div class="col-12">
+                <div class="cyber-card">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+                        <div>
+                            <h4 class="h5 text-white mb-1 fw-bold">Live Asset Intelligence Capture</h4>
+                            <p class="text-muted-custom small mb-0" id="renderedTargetUrl"></p>
+                        </div>
+                        <button class="btn btn-cyber-primary mt-2 mt-sm-0" onclick="routeToGlobalDashboard('url')">
+                            <i class="fa-solid fa-chart-line me-2"></i>View Deep Analysis Dashboard
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-cyber align-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;">Security Inspection Node</th>
+                                    <th style="width: 25%;">Status Assessment</th>
+                                    <th>Observed Operational Evidence</th>
+                                </tr>
+                            </thead>
+                            <tbody id="urlFindingsTableContent">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container container-xl text-center">
+            <p class="mb-0">&copy; 2026 PhishRadar. IBM Internship Project. Made with <i class="fa-solid fa-heart text-danger"></i> by Kubavat Kuldip</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/url-analysis.js"></script>
+</body>
+</html>

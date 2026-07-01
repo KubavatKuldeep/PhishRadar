@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishRadar - Threat Intelligence Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-expand-lg navbar-cyber fixed-top">
+        <div class="container-fluid container-xl">
+            <a class="navbar-brand navbar-brand-cyber" href="index.html">
+                <i class="fa-solid fa-shield-halved text-info me-2"></i>Phish<span>Radar</span>
+            </a>
+            <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#cyberNavbar" aria-controls="cyberNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="cyberNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link nav-link-cyber active" href="index.html"><i class="fa-solid fa-chart-pie me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="url-analysis.html"><i class="fa-solid fa-link me-1"></i> URL Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="email-analysis.html"><i class="fa-solid fa-envelope me-1"></i> Email Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="qr-analysis.html"><i class="fa-solid fa-qrcode me-1"></i> QR Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="about.html"><i class="fa-solid fa-user me-1"></i> About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container container-xl mt-5 pt-5 flex-grow-1">
+        
+        <section class="row py-5 align-items-center">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold text-white mb-3">PhishRadar</h1>
+                <p class="lead text-info fw-semibold mb-3">AI-Powered Multi-Vector Phishing Detection Platform</p>
+                <p class="text-muted-custom mb-4 fs-5 col-lg-10 px-0">
+                    Detect sophisticated phishing vectors across URLs, structured Email data, and dynamic QR Codes through unified analysis matrices and automated defensive tracking engines.
+                </p>
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                    <a href="url-analysis.html" class="btn btn-cyber-primary"><i class="fa-solid fa-magnifying-glass-chart me-2"></i>Analyze Now</a>
+                    <a href="#features-anchor" class="btn btn-cyber-secondary"><i class="fa-solid fa-circle-info me-2"></i>Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block text-center">
+                <i class="fa-solid fa-shield-cat text-info opacity-75" style="font-size: 16rem;"></i>
+            </div>
+        </section>
+
+        <section class="row g-4 mb-5">
+            <div class="col-sm-6 col-xl-3">
+                <div class="cyber-card text-center">
+                    <div class="text-info mb-2"><i class="fa-solid fa-globe fa-2x"></i></div>
+                    <div class="text-muted-custom mb-1 fw-medium">URLs Analyzed</div>
+                    <div class="stat-value" id="stat-urls">142,894</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="cyber-card text-center">
+                    <div class="text-info mb-2"><i class="fa-solid fa-envelope-open-text fa-2x"></i></div>
+                    <div class="text-muted-custom mb-1 fw-medium">Emails Analyzed</div>
+                    <div class="stat-value" id="stat-emails">89,120</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="cyber-card text-center">
+                    <div class="text-info mb-2"><i class="fa-solid fa-qrcode fa-2x"></i></div>
+                    <div class="text-muted-custom mb-1 fw-medium">QR Codes Scanned</div>
+                    <div class="stat-value" id="stat-qrs">34,511</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="cyber-card text-center">
+                    <div class="text-danger mb-2"><i class="fa-solid fa-triangle-exclamation fa-2x"></i></div>
+                    <div class="text-muted-custom mb-1 fw-medium">Threats Detected</div>
+                    <div class="stat-value text-danger" id="stat-threats" style="background: none; -webkit-text-fill-color: #FF5252;">12,684</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features-anchor" class="py-4 mb-5">
+            <div class="text-center mb-5">
+                <h2 class="h2 fw-bold text-white mb-2">Multi-Vector Defensive Framework</h2>
+                <p class="text-muted-custom">Advanced components built for complete telemetry visualization</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="cyber-card h-100">
+                        <div class="text-info mb-3"><i class="fa-solid fa-link fa-2x"></i></div>
+                        <h3 class="h5 text-white mb-2">URL Analysis</h3>
+                        <p class="text-muted-custom small mb-0">Deconstructs domains, examines registration data, verifies SSL configuration status, and filters typosquatting indicators instantaneously.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="cyber-card h-100">
+                        <div class="text-info mb-3"><i class="fa-solid fa-envelope fa-2x"></i></div>
+                        <h3 class="h5 text-white mb-2">Email Analysis</h3>
+                        <p class="text-muted-custom small mb-0">Parses header metadata strings, evaluates semantic body context, and uncovers sophisticated visual spoofing tactics.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="cyber-card h-100">
+                        <div class="text-info mb-3"><i class="fa-solid fa-qrcode fa-2x"></i></div>
+                        <h3 class="h5 text-white mb-2">QR Analysis</h3>
+                        <p class="text-muted-custom small mb-0">Extracts payloads from uploaded images, checks target strings, and monitors embedded redirects hidden inside visual symbols.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="cyber-card h-100">
+                        <div class="text-info mb-3"><i class="fa-solid fa-brain fa-2x"></i></div>
+                        <h3 class="h5 text-white mb-2">AI Threat Explanation</h3>
+                        <p class="text-muted-custom small mb-0">Transforms deep architectural evaluation metrics into clear, contextualized natural language explanations for SOC responders.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="cyber-card h-100">
+                        <div class="text-info mb-3"><i class="fa-solid fa-diagram-next fa-2x"></i></div>
+                        <h3 class="h5 text-white mb-2">Redirect Chain Mapping</h3>
+                        <p class="text-muted-custom small mb-0">Tracks intermediate hops through active network routes to follow cloaked destinations and server-side traffic modifications.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="cyber-card h-100">
+                        <div class="text-info mb-3"><i class="fa-solid fa-gauge-high fa-2x"></i></div>
+                        <h3 class="h5 text-white mb-2">Risk Scoring Engine</h3>
+                        <p class="text-muted-custom small mb-0">Computes standardized risk indicators by weighing historical feeds, domain heuristics, and threat intelligence telemetry.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container container-xl text-center">
+            <p class="mb-0">&copy; 2026 PhishRadar. IBM Internship Project. Made with <i class="fa-solid fa-heart text-danger"></i> by Kubavat Kuldip</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

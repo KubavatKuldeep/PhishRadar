@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishRadar - QR Vector Extraction Deck</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-expand-lg navbar-cyber fixed-top">
+        <div class="container-fluid container-xl">
+            <a class="navbar-brand navbar-brand-cyber" href="index.html">
+                <i class="fa-solid fa-shield-halved text-info me-2"></i>Phish<span>Radar</span>
+            </a>
+            <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#cyberNavbar" aria-controls="cyberNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="cyberNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="index.html"><i class="fa-solid fa-chart-pie me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="url-analysis.html"><i class="fa-solid fa-link me-1"></i> URL Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="email-analysis.html"><i class="fa-solid fa-envelope me-1"></i> Email Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber active" href="qr-analysis.html"><i class="fa-solid fa-qrcode me-1"></i> QR Analysis</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-cyber" href="about.html"><i class="fa-solid fa-user me-1"></i> About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container container-xl mt-5 pt-5 flex-grow-1">
+        <div class="row my-4">
+            <div class="col-12">
+                <h1 class="h3 fw-bold text-white mb-1"><i class="fa-solid fa-qrcode text-info me-2"></i>QR Vector Extraction Deck</h1>
+                <p class="text-muted-custom">Decode matrix barcodes to extract payload locations, analyze target networks, and identify hidden redirection vectors.</p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-5">
+                <div class="cyber-card h-100">
+                    <h2 class="h5 text-white mb-3 fw-bold"><i class="fa-solid fa-upload text-info me-2"></i>Ingress Matrix Capture</h2>
+                    
+                    <div class="drag-drop-zone id="qrDropZone" onclick="triggerManualQrFileSelection()">
+                        <i class="fa-solid fa-qrcode text-info mb-3 opacity-75" style="font-size: 3.5rem;"></i>
+                        <p class="text-white fw-semibold mb-1">Drag & Drop QR Image File</p>
+                        <p class="text-muted-custom small mb-3">Supports PNG, JPG, JPEG source assets</p>
+                        <span class="btn btn-sm btn-cyber-secondary">Browse System Local Storage</span>
+                        <input type="file" id="hiddenQrFileInput" class="d-none" accept="image/*" onchange="processQrImageUpload(this.files[0])">
+                    </div>
+
+                    <div class="mt-4 d-none text-center p-3 rounded bg-dark border border-secondary" id="qrAssetPreviewBox">
+                        <span class="text-muted-custom d-block small mb-2 text-start">Staged Target Asset Stream</span>
+                        <img id="qrTargetImagePreviewElement" src="#" alt="QR Code Target Preview" class="img-fluid rounded border border-secondary mb-2" style="max-height: 160px;">
+                        <button type="button" class="btn btn-cyber-primary d-block w-100 mt-2" id="qrTriggerProcessBtn" onclick="runQrForensicDeconstruction()">
+                            <i class="fa-solid fa-bolt me-2"></i>Deconstruct Staged QR Matrix
+                        </button>
+                        <div id="qrErrorContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="cyber-card h-100 d-flex flex-column align-items-center justify-content-center text-center py-5" id="qrEngineDefaultPlaceholder">
+                    <i class="fa-solid fa-wand-magic-sparkles text-secondary opacity-20 mb-3" style="font-size: 5rem;"></i>
+                    <h3 class="h5 text-muted-custom">Awaiting Matrix Parsing Initialization</h3>
+                    <p class="text-muted-custom small col-8">Stage an encrypted file asset into the interface tracking window to start payload telemetry decoding sequences.</p>
+                </div>
+
+                <div class="cyber-card h-100 d-none d-flex flex-column align-items-center justify-content-center text-center py-5" id="qrEngineLoadingIndicator">
+                    <div class="spinner-border analysis-spinner mb-3" role="status"></div>
+                    <h3 class="h5 text-info">Extracting High-Density Vector Coordinates...</h3>
+                    <p class="text-muted-custom small">Isolating target URLs and scanning redirect links</p>
+                </div>
+
+                <div class="cyber-card d-none h-100" id="qrEngineInteractiveResultsDashboard">
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
+                        <h3 class="h5 text-white mb-0 fw-bold"><i class="fa-solid fa-square-poll-vertical text-info me-2"></i>Decoded Matrix Telemetry</h3>
+                        <button class="btn btn-sm btn-cyber-primary" onclick="routeToGlobalDashboard('qr')">Visualize Route Dashboard</button>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-4">
+                            <div class="p-3 rounded bg-dark border border-secondary text-center">
+                                <span class="d-block small text-muted-custom mb-1">Threat Score</span>
+                                <span class="h4 fw-bold text-success" id="qrRenderedScore">12/100</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="p-3 rounded bg-dark border border-secondary h-100 d-flex flex-column justify-content-center">
+                                <span class="d-block small text-muted-custom mb-1">Decoded Destination Payload Target</span>
+                                <span class="text-info fw-semibold text-truncate small" id="qrRenderedPayloadString"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="h6 text-white fw-bold mb-2">Matrix Context Structural Findings</h4>
+                        <ul class="list-group list-group-flush rounded border border-secondary bg-transparent" id="qrFindingsBulletContainer">
+                            </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="h6 text-white fw-bold mb-2">AI Diagnostic Summary</h4>
+                        <p class="text-muted-custom small bg-dark border border-secondary p-3 rounded mb-0" id="qrAiExplanationViewField"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container container-xl text-center">
+            <p class="mb-0">&copy; 2026 PhishRadar. IBM Internship Project. Made with <i class="fa-solid fa-heart text-danger"></i> by Kubavat Kuldip</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/qr-analysis.js"></script>
+</body>
+</html>
